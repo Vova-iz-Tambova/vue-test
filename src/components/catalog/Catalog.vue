@@ -5,6 +5,8 @@ import { reactive, ref } from 'vue'
 import { useField } from 'vee-validate'
 import { defineProps, toRef } from 'vue'
 
+import styles from './Catalog.module.scss'
+
 const props = defineProps<{
   title: string
 }>()
@@ -42,17 +44,17 @@ const addPost = () => {
 </script>
 
 <template>
-  <div class="bg-black bg-opacity-15 p-5 rounded-lg">
-    <h1 class="text-4x1 mb-4">Add post</h1>
+  <div :class="styles.wrapper">
+    <h1>Add post</h1>
     <form>
-      <input v-model="value" />
+      <input v-model="value" placeholder="Enter post title" type="text"/>
       <div v-if="errorMessage">{{ errorMessage }}</div>
       <button @click.prevent="addPost">Add</button>
     </form>
     <ul>
       <li :key="post.id" v-for="post in state.posts">
         <span>{{ post.id }} - {{ post.title }}</span>
-        <button @click="removePost(post.id)">Remove</button>
+        <button @click="removePost(post.id)">X</button>
       </li>
     </ul>
   </div>

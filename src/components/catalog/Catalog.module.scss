@@ -1,0 +1,36 @@
+@import "/src/assets/keyframes.scss";
+
+.wrapper {
+  @apply bg-black bg-opacity-15 p-5 rounded-lg;
+
+  >h1 {
+    @apply text-4xl mb-4;
+  }
+
+  >form {
+    @apply mb-8;
+
+    >input {
+      @apply rounded-lg px-3 py-2 block mb-3;
+    }
+
+    >button {
+      @apply bg-emerald-500 rounded-lg px-8 py-2 font-semibold;
+    }
+  }
+
+  >ul {
+
+    >li {
+      @apply block rounded-lg p-2.5 mb-5 bg-white;
+      animation: fade .4s;
+      >span {
+        @apply text-lg;
+      }
+
+      >button {
+        @apply text-red-600 text-lg ml-3 inline-flex items-center justify-center rounded-full w-6 h-6 bg-gray-400;
+      }
+    }
+  }
+}

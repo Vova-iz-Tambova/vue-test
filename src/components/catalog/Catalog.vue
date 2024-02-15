@@ -1,58 +1,26 @@
 <script setup lang="ts">
-import type { IPost } from './catalog.interface'
-import { reactive, ref } from 'vue'
-
-import { useField } from 'vee-validate'
-import { defineProps, toRef } from 'vue'
-
 import styles from './Catalog.module.scss'
+import { useCatalog } from './useCatalog'
+import { defineProps } from 'vue'
 
 const props = defineProps<{
   title: string
 }>()
 
-const isRequired = (value: unknown) => !!(value && (value as string).trim()) || 'This is required'
-
-const titleRef = toRef(props, 'title')
-const { errorMessage, value } = useField<string>(titleRef, isRequired)
-
-const state: { posts: IPost[] } = reactive({
-  posts: [
-    {
-      userId: 1,
-      id: 1,
-      title: 'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
-      body: 'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto'
-    }
-  ]
-})
-
-const removePost = (id: number) => {
-  state.posts = state.posts.filter((post) => post.id !== id)
-}
-
-const addPost = () => {
-  state.posts.push({
-    id: 2,
-    title: value.value,
-    userId: 2,
-    body: ''
-  })
-
-  value.value = ''
-}
+const { posts, errorMessage, addPost, removePost, value } = useCatalog(props)
 </script>
 
 <template>
   <div :class="styles.wrapper">
     <h1>Add post</h1>
     <form>
-      <input v-model="value" placeholder="Enter post title" type="text"/>
+      <input v-model="value" placeholder="Enter post title" type="text" />
       <div v-if="errorMessage">{{ errorMessage }}</div>
       <button @click.prevent="addPost">Add</button>
     </form>
+    <div v-if="!posts.length">Posts not found</div>
     <ul>
-      <li :key="post.id" v-for="post in state.posts">
+      <li :key="post.id" v-for="post in posts">
         <span>{{ post.id }} - {{ post.title }}</span>
         <button @click="removePost(post.id)">X</button>
       </li>

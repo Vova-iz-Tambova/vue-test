@@ -7,10 +7,10 @@ export type TypePostDto = Omit<IPost, 'id'>
 
 export const PostService = {
   async getAll() {
-    return axios.get<Array<IPost>>('/posts')
+    return axios.get<IPost[]>('/posts')
   },
-  async create(data: IPost) {
-    return axios.post<IPost>('/posts', data, {
+  async create(body: TypePostDto) {
+    return axios.post<IPost>('/posts', body, {
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
       }

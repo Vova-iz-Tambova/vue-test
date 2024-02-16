@@ -2,12 +2,13 @@
 import styles from './Catalog.module.scss'
 import { useCatalog } from './useCatalog'
 import { defineProps } from 'vue'
+import Posts from './Posts.vue'
 
 const props = defineProps<{
   title: string
 }>()
 
-const { posts, errorMessage, addPost, removePost, value } = useCatalog(props)
+const { errorMessage, value, addPost, isLoading } = useCatalog(props)
 </script>
 
 <template>
@@ -16,14 +17,9 @@ const { posts, errorMessage, addPost, removePost, value } = useCatalog(props)
     <form>
       <input v-model="value" placeholder="Enter post title" type="text" />
       <div v-if="errorMessage">{{ errorMessage }}</div>
-      <button @click.prevent="addPost">Add</button>
+      <button @click.prevent="addPost" :disabled="isLoading">Add</button>
     </form>
-    <div v-if="!posts.length">Posts not found</div>
-    <ul>
-      <li :key="post.id" v-for="post in posts">
-        <span>{{ post.id }} - {{ post.title }}</span>
-        <button @click="removePost(post.id)">X</button>
-      </li>
-    </ul>
+
+    <Posts />
   </div>
 </template>
